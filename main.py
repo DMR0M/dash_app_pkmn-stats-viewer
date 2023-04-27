@@ -20,7 +20,7 @@ CSS_FILE = 'assets/logo.css'
 app = dash.Dash(__name__, external_stylesheets=CSS_FILE)
 
 
-app = Dash(external_stylesheets=[dbc.themes.LUX])
+app = Dash(external_stylesheets=[dbc.themes.DARKLY])
 app.title = 'Pokemon Stats Viewer'
 
 header_title = dcc.Markdown(children='Pokemon Stats Viewer')
