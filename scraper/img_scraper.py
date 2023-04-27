@@ -6,7 +6,13 @@ img_source_url = 'https://img.pokemondb.net/artwork'
 
 
 def find_image(pkmn_name='pikachu', *, dir_path='assets/pokemon', url=img_source_url):
-    pkmn_name = pkmn_name.lower()
+    pkmn_name = (
+                pkmn_name
+                .lower()
+                .replace(' ', '-')
+                .replace(':', '')
+                .replace('.', '')
+    )
     img_file = Path(f'{pkmn_name}.jpg')
     
     # Check if a pokemon image is already downloaded
@@ -19,6 +25,7 @@ def find_image(pkmn_name='pikachu', *, dir_path='assets/pokemon', url=img_source
             
             # Download the image file from the url request
             if img_response.status_code == 200:
+                
                 with open(f'{dir_path}/{pkmn_name}.jpg', 'wb') as img_file:
                     img_file.write(img_response.content)
                     

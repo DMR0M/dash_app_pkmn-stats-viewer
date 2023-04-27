@@ -4,7 +4,7 @@ import plotly.express as px
 # ids
 from . import ids
 # data
-from data.data import stats_data
+from data.data_handler import stats_data
 
 
 def render(pkmn_name='Pikachu', *, pkmn_df=stats_data()) -> dcc.Graph:

@@ -13,7 +13,7 @@ from src.components import stats_heat_map
 from src.components import entry
 
 # data
-from data.data import stats_data
+from data.data_handler import stats_data
 
 
 CSS_FILE = 'assets/logo.css'
@@ -78,7 +78,11 @@ app.layout = html.Div([
             
         ])
         ),
-        entry.render(),
+        dbc.Container([
+            entry.render(),
+        ], style={
+            'margin': '80px',
+        }),
         stats_bar_chart.render(),
         stats_pie_chart.render(),
         html.Div(
@@ -113,36 +117,40 @@ def update_charts(_, value, bar_fig, pie_fig):
             showlegend=False,
         )
         pie_fig = px.pie()
-        info_container = dbc.Container([
+        info_container = html.Div([
             html.H3(
-                style={'display': 'inline-block'}
+                style={'display': 'inline-block',
+                       'margin-bottom': '15px'}
             ),
-            html.H3(
+            html.H4(
                 f'Pokedex Number:',
-                style={'text-align': 'right',}
+                style={'text-align': 'left',
+                       'margin-bottom': '15px'}
             ),
             html.H3(
                 f'NO DATA FOUND',
-                style={'margin-bottom': '40px',
-                       'text-align': 'right'}
+                style={'text-align': 'left',
+                       'margin-bottom': '15px'}
             ),
-            html.H3(
+            html.H4(
                 f'Type:',
-                style={'text-align': 'right'}
+                style={'text-align': 'left',
+                       'margin-bottom': '15px'}
             ),
             html.H3(
                 f'NO DATA FOUND',
-                style={'margin-bottom': '40px',
-                       'text-align': 'right'}
+                style={'text-align': 'left',
+                       'margin-bottom': '15px'}
             ),
-            html.H3(
+            html.H4(
                 f'Abilities:',
-                style={'text-align': 'right'}
+                style={'text-align': 'left',
+                       'margin-bottom': '15px'}
             ),
             html.H3(
                 f'NO DATA FOUND',
-                style={'margin-bottom': '40px',
-                       'text-align': 'right'}
+                style={'text-align': 'left',
+                       'margin-bottom': '15px'}
             )
             ], id=ids.PKMN_INFO,
         )

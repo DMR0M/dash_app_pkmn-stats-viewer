@@ -5,7 +5,7 @@ import pandas as pd
 # ids
 from . import ids
 # data
-from data.data import stats_data
+from data.data_handler import stats_data
 
 
 # Create a heatmap of the correlation of all pokemon's stats 

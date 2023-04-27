@@ -49,5 +49,6 @@ def category_data(*, db=DATABASE):
 
 
 if __name__ == '__main__':
-    print(category_data())
+    pass
+    # print(category_data())
     
