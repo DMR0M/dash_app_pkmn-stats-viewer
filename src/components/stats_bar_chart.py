@@ -12,7 +12,6 @@ def render(pkmn_name='Pikachu', *, pkmn_df=stats_data()) -> dcc.Graph:
     stats_data = pkmn_df.loc[pkmn_name][::-1]
     base_total = sum(stats_data.values)
 
-    
     # Create initial bar chart
     stats_bar_fig = px.bar(stats_data, orientation='h')
     stats_bar_fig.update_xaxes(range=[0, 230], tickfont=dict(size=16))
