@@ -3,13 +3,14 @@ from dash import Dash, html, dcc
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 import plotly.express as px
-import time
 
 # src components
 from src.components import ids
 from src.components import stats_bar_chart
 from src.components import stats_pie_chart
 from src.components import stats_heat_map
+from src.components import gen_histogram
+from src.components import data_table
 from src.components import entry
 
 # data
@@ -17,10 +18,12 @@ from data.data_handler import stats_data
 
 
 CSS_FILE = 'assets/logo.css'
-app = dash.Dash(__name__, external_stylesheets=CSS_FILE)
+app = dash.Dash(__name__, 
+                external_scripts=['/assets/scripts/onEnterSearch.js'],
+                external_stylesheets=CSS_FILE)
 
 
-app = Dash(external_stylesheets=[dbc.themes.DARKLY])
+app = Dash(external_stylesheets=[dbc.themes.JOURNAL])
 app.title = 'Pokemon Stats Viewer'
 
 header_title = dcc.Markdown(children='Pokemon Stats Viewer')
@@ -49,8 +52,9 @@ app.layout = html.Div([
         html.Br(),
         dbc.Container(
         html.Div([
-            dbc.Input(id='pkmn-search-input', type="text", placeholder="Search by Pokemon name", 
+            dcc.Input(id='pkmn-search-input', type="text", placeholder="Search by Pokemon name", 
                   value='Pikachu',
+                  debounce=True,
                   style={
                       'width': '70%',
                       'height': '45px',
@@ -85,7 +89,8 @@ app.layout = html.Div([
         }),
         stats_bar_chart.render(),
         stats_pie_chart.render(),
-        html.Div(
+        gen_histogram.render(),
+        dbc.Container(
             style={
                 'display': 'flex',
                 'justify-content': 'center',
@@ -94,6 +99,7 @@ app.layout = html.Div([
             },
             children=[
                 stats_heat_map.render(),
+                # data_table.render(),
         ]),
     ])
     
@@ -172,6 +178,15 @@ def update_charts(_, value, bar_fig, pie_fig):
     pkmn_info = entry.render(value)
     
     return bar_fig, pie_fig, value, pkmn_info
+
+
+app.clientside_callback(
+    # Javascript function
+    "onEnterSearchPress",
+    [Output('pkmn-search-input', 'value')],
+    [Input('pkmn-search-btn', 'n_clicks')],
+    [State('pkmn-search-input', 'value')],
+)
     
 
 if __name__ == '__main__':

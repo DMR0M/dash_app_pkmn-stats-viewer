@@ -1,4 +1,6 @@
 import requests
+import io
+from PIL import Image
 
 
 img_source_url = 'https://img.pokemondb.net/artwork'
@@ -11,5 +13,6 @@ def load_image(pkmn_name=None):
     
     pkmn_image = f'{pkmn_name}.jpg'
     image_request = requests.get(f'{img_source_url}/{pkmn_image}')
+        
     image_data = image_request.content
     return image_data

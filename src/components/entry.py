@@ -20,12 +20,15 @@ def render(pkmn_name='Pikachu', *, pkmn_df=category_data(), img_loader=load_imag
         .replace('.', '')
     )
         
-    # Image
+    # Get image of Pokemon
     pkmn_img_data = img_loader(pkmn_name)
 
     # Filter info_list variable
     # FROM: ['#00025', "['Electric', nan]", 'Static Lightning Rod']
     # TO: ['#00025', "'Electric', nan", 'Static Lightning Rod']
+    # print(info_list)
+
+    info_list = list(map(lambda x: str(x), info_list))
     info_list = (
                  '|'.join(info_list)
                  .replace('[', '')
@@ -36,7 +39,7 @@ def render(pkmn_name='Pikachu', *, pkmn_df=category_data(), img_loader=load_imag
                 )
     
     # print(info_list)
-    dex_num, types, abilities = info_list
+    dex_num, types, abilities, gen = info_list
     
     # # download the image
     # find_image(pkmn_name)
@@ -61,6 +64,15 @@ def render(pkmn_name='Pikachu', *, pkmn_df=category_data(), img_loader=load_imag
             ),
             html.H4(
                 f'{dex_num}',
+                style={'margin-bottom': '40px',
+                       'text-align': 'left'}
+            ),
+            html.H3(
+                f'Generation:',
+                style={'text-align': 'left',}
+            ),
+            html.H4(
+                f'{gen}',
                 style={'margin-bottom': '40px',
                        'text-align': 'left'}
             ),
