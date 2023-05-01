@@ -7,7 +7,10 @@ const onEnterSearchPress = (n_clicks, value) => {
         'keydown', () => {
             if (event.key === 'Enter') {
                 document.getElementById('pkmn-search-btn').click();
+                // document.getElementById('pkmn-search-input').textContent = '';
             }
         });
     return '';
 };
+
+

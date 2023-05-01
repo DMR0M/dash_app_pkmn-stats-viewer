@@ -11,7 +11,7 @@ def render(*, pkmn_df=distributed_data()) -> dcc.Graph:
     hist_chart = px.histogram(
         pkmn_df, 
         x='Generation', 
-        title='Number of Pokemon for each Generation',
+        # title='Number of Pokemon for each Generation',
         nbins=10,
         color_discrete_sequence=['indianred'],
     )

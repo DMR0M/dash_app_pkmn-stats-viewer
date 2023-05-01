@@ -10,12 +10,15 @@ from src.components import stats_bar_chart
 from src.components import stats_pie_chart
 from src.components import stats_heat_map
 from src.components import gen_histogram
-from src.components import data_table
+from src.components import top_stats_bar_chart
+from src.components import top_stats_box_chart
 from src.components import entry
 
 # data
 from data.data_handler import stats_data
 
+
+cols = stats_data().columns.to_list()
 
 CSS_FILE = 'assets/logo.css'
 app = dash.Dash(__name__, 
@@ -25,6 +28,7 @@ app = dash.Dash(__name__,
 
 app = Dash(external_stylesheets=[dbc.themes.JOURNAL])
 app.title = 'Pokemon Stats Viewer'
+
 
 header_title = dcc.Markdown(children='Pokemon Stats Viewer')
 app.layout = html.Div([
@@ -54,7 +58,11 @@ app.layout = html.Div([
         html.Div([
             dcc.Input(id='pkmn-search-input', type="text", placeholder="Search by Pokemon name", 
                   value='Pikachu',
+                  # Input Field Flags
+                  # ----------------------------------------------------------------
                   debounce=True,
+                  autoComplete='on',
+                  # ----------------------------------------------------------------
                   style={
                       'width': '70%',
                       'height': '45px',
@@ -89,6 +97,40 @@ app.layout = html.Div([
         }),
         stats_bar_chart.render(),
         stats_pie_chart.render(),
+        html.Hr(),
+        html.H2('Top 10 Pokemon with the Highest Selected Stat',
+                style={
+                        'margin': '10px', 
+                }),
+        html.Hr(),
+        dcc.Dropdown(
+            cols,
+            value=cols[0],
+            id='stats-dropdown',
+        ),
+        html.Hr(),
+        html.H2('Bar Chart',
+                style={
+                        'margin': '10px', 
+                        'text-align': 'center',
+                }),
+        html.Hr(),
+        top_stats_bar_chart.render(),
+        html.Hr(),
+        html.H2('Box Plot',
+                style={
+                        'margin': '10px', 
+                        'text-align': 'center',
+                }),
+        html.Hr(),
+        top_stats_box_chart.render(),
+        html.Hr(),
+        html.H2('Number of each Pokemon for each generation',
+                style={
+                        'margin': '10px', 
+                        'text-align': 'center',
+                }),
+        html.Hr(),
         gen_histogram.render(),
         dbc.Container(
             style={
@@ -182,11 +224,22 @@ def update_charts(_, value, bar_fig, pie_fig):
 
 app.clientside_callback(
     # Javascript function
-    "onEnterSearchPress",
-    [Output('pkmn-search-input', 'value')],
-    [Input('pkmn-search-btn', 'n_clicks')],
-    [State('pkmn-search-input', 'value')],
+    'onEnterSearchPress',
+    [Output('pkmn-search-input', 'value'),],
+    [Input('pkmn-search-btn', 'n_clicks'),],
+    [State('pkmn-search-input', 'value'),],
 )
+
+
+@app.callback(
+    [Output(top_stats_bar_chart.render().id, 'figure'),
+     Output(top_stats_box_chart.render().id, 'figure'),],
+    [Input('stats-dropdown', 'value')],
+)
+def update_dropdown(stat_selection):
+    bar_top_stats = top_stats_bar_chart.render(stat_selection).figure
+    box_top_stats = top_stats_box_chart.render(stat_selection).figure
+    return bar_top_stats, box_top_stats
     
 
 if __name__ == '__main__':

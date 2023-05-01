@@ -94,6 +94,8 @@ def distributed_data(*, db=DATABASE):
 
     return pd.DataFrame(pkmn_lookup)
         
+        
+
 
 if __name__ == '__main__':
     print(distributed_data())
