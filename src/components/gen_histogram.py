@@ -17,11 +17,9 @@ def render(*, pkmn_df=distributed_data()) -> dcc.Graph:
     )
     hist_chart.update_layout(
         bargap=0.1,
-        
         xaxis=dict
         (
             tickfont=dict(size=18),
-            
         )
     )
     

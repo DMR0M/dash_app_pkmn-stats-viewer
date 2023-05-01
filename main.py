@@ -107,6 +107,10 @@ app.layout = html.Div([
             cols,
             value=cols[0],
             id='stats-dropdown',
+            style={
+                'border': '2px solid #ccc',
+                'border-radius': '4px'
+            },
         ),
         html.Hr(),
         html.H2('Bar Chart',
@@ -243,6 +247,6 @@ def update_dropdown(stat_selection):
     
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8501)
+    app.run_server(port=8501)
     
     
